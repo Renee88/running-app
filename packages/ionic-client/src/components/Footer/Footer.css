@@ -1,0 +1,41 @@
+#start-button{
+    background: linear-gradient(45deg, #4AEC8B 30%, #51F8D4 90%);
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+#tabs-container{
+    height: 15vh;
+}
+
+.tabs{
+    padding-bottom: 20px;
+    font-size: large;
+}
+
+.footer-button-left{
+    padding-right: 20px;
+}
+
+.footer-button-right{
+    padding-left: 20px;
+}
+
+.user-option {
+    font-size: 30px;
+}
+
+.user-choise-label{
+    font-size: larger;
+}
+
+.drop{
+    color: #2EC0F9;
+}
+
+.empty-input-label{
+    font-size: medium;
+    text-align: center;
+}
