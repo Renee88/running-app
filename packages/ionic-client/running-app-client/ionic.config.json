@@ -1,0 +1,7 @@
+{
+  "name": "running-app-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
