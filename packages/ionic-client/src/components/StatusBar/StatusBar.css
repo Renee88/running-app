@@ -1,0 +1,36 @@
+.card{
+ height: 100px;   
+}
+
+.status-bar{
+    position: absolute;
+    bottom: 0;
+    --background: transparent;
+}
+.chips{
+    display: flex;
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    justify-content: space-evenly;
+}
+
+.chip{
+    background-color:rgba(255,255,255, 0.8);
+}
+
+#kilometers{
+    color: #ED6A5A;
+    border-color: #ED6A5A ;
+}
+
+#track{
+    color: #63B995;
+    border-color: #63B995;
+    
+}
+
+#difficulty{
+    color: #2EC0F9;
+    border-color: #2EC0F9 ;
+}

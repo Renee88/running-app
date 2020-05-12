@@ -1,16 +1,19 @@
 import React from 'react';
+import dotenv from 'dotenv'
 import { IonContent, IonPage } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import MapContainer from '../components/MapContainer/MapContainer';
+import './Home.css';
+dotenv.config()
+
 
 const Home: React.FC = () => {
   return (
     <IonPage>
       <Header />
       <IonContent>
-        <ExploreContainer />
+        <MapContainer />
       </IonContent>
       <Footer />
     </IonPage>
