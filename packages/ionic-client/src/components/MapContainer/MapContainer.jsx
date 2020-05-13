@@ -9,21 +9,30 @@ class MapContainer extends Component {
     constructor() {
         super()
         this.state = {
-            showingInfoWindow: false,
-            activeMarker: null,
+            showingInfoWindow: true,
             selectedPlace: null,
+            activeMarker: null,
             currentLocation: null,
-            startPoint: null
+            startPoint: null,
+            endPoint: null
         };
     }
 
+    setNewStartPoint = (e, a) => {
+        console.log(e, a)
+        console.log(a.internalPosition.lat())
+        const lat = a.internalPosition.lat()
+        const lng = a.internalPosition.lng()
+        const startPoint = { lat, lng }
+        this.setState({ startPoint })
+    }
 
 
     showMarker = (map, maps, e) => {
         const lat = e.latLng.lat();
         const lng = e.latLng.lng()
-        const activeMarker = { lng, lat }
-        this.setState({ activeMarker })
+        const endPoint = { lng, lat }
+        this.setState({endPoint})
     }
 
     showPosition = (position) => {
@@ -39,11 +48,13 @@ class MapContainer extends Component {
 
 
     onMarkerClick = (props, marker, e) => {
+        console.log(props.google.maps.places)
         this.setState({
             selectedPlace: props,
             activeMarker: marker,
+            endPoint: props.position,
             showingInfoWindow: true
-        });
+        }, () => console.log(this.state));
     }
 
     onClose = props => {
@@ -60,26 +71,29 @@ class MapContainer extends Component {
     }
 
     render() {
+
+        // console.log(this.state.selectedPlace)
         return (
 
             <Map
                 disableDefaultUI={true}
                 google={this.props.google}
                 onClick={this.showMarker}
-                center={this.state.startPoint ? this.state.startPoint : this.state.currentLocation}
+                center={this.state.currentLocation}
             >
-                <Marker 
-                position={this.state.startPoint ? this.state.startPoint : this.state.currentLocation} 
-                name={'current location'} 
-                draggable={true}
+                <Marker
+                    position={this.state.startPoint ? this.state.startPoint : this.state.currentLocation}
+                    name={'current location'}
+                    draggable={true}
+                    onDragend={this.setNewStartPoint}
+                    icon={{
+                        url: "/assets/icon/startPin.png",
+                        anchor: new window.google.maps.Point(32, 32),
+                        scaledSize: new window.google.maps.Size(30, 30)
+                    }} />
 
-                icon={{
-                    url: "/assets/icon/startPin.png",
-                    anchor: new window.google.maps.Point(32,32),
-                    scaledSize: new window.google.maps.Size(30, 30)
-                }} />
 
-                {this.state.activeMarker ? <Marker onClick={this.onMarkerClick} position={this.state.activeMarker} /> : null}
+                {this.state.endPoint ? <Marker name={this.state.place} onClick={this.onMarkerClick} onDragend={this.showMarker} draggable={true} position={this.state.endPoint} /> : null}
 
                 <InfoWindow
                     marker={this.state.activeMarker}
