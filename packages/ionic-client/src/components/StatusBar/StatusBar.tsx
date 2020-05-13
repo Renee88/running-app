@@ -1,5 +1,5 @@
 import React from 'react'
-import { IonIcon, IonGrid, IonRow, IonCol, IonLabel, IonItem, IonCard, IonCardContent, IonChip } from '@ionic/react';
+import { IonIcon,IonLabel, IonChip } from '@ionic/react';
 import { checkmarkOutline, waterSharp } from 'ionicons/icons'
 import './StatusBar.css'
 

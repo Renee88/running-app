@@ -1,7 +1,7 @@
 import React from 'react'
 import { IonButton, IonFabButton, IonToolbar, IonButtons, IonFooter, IonTabBar, IonIcon, IonLabel, IonTabButton} from '@ionic/react';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
-import { pinOutline, trailSign, heartOutline, peopleOutline, podiumOutline, checkmarkOutline, waterSharp } from 'ionicons/icons'
+import { pinOutline, trailSign, heartOutline, peopleOutline, podiumOutline} from 'ionicons/icons'
 import './Footer.css'
 
 function Footer() {
