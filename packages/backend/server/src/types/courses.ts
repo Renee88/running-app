@@ -1,0 +1,1 @@
+export type Course = {lat: number, lng: number}[]
