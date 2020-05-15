@@ -1,7 +1,7 @@
 const CourseReducer = (state = [], action) => {
     switch (action.type){
         case 'GET_COURSE':
-            return action.course
+            return action.polyline
         default:
             return state
     }

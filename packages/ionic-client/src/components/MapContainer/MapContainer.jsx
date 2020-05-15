@@ -1,11 +1,10 @@
-import { Map, Marker, InfoWindow, GoogleApiWrapper , Polyline } from 'google-maps-react';
+import { Map, Marker, InfoWindow, Polyline } from 'google-maps-react';
 import { connect } from 'react-redux';
 import getCourse from '../../redux/thunks/GetCourseThunk'
 import React, { Component } from 'react'
 import { IonFabButton, IonIcon } from '@ionic/react';
 import { bodyOutline } from 'ionicons/icons';
 import StatusBar from '../StatusBar/StatusBar';
-import googleWrapper from '../GoogleApiWrapper/GoogleApiWrapper'
 import './MapContainer.css'
 
 class MapContainer extends Component {
@@ -28,7 +27,9 @@ class MapContainer extends Component {
         const lat = marker.internalPosition.lat()
         const lng = marker.internalPosition.lng()
         const startPoint = { lat, lng }
-        this.setState({ startPoint })
+        this.setState({ startPoint }, () => {
+            this.showPolyline()
+        })
     }
 
 
@@ -51,7 +52,7 @@ class MapContainer extends Component {
         const lat = position.coords.latitude
         const lng = position.coords.longitude
         const currentLocation = { lat, lng }
-        this.setState({ currentLocation })
+        this.setState({ currentLocation, startPoint: currentLocation })
     }
 
     setCenter = () => {
@@ -66,7 +67,7 @@ class MapContainer extends Component {
             activeMarker: marker,
             endPoint: props.position,
             showingInfoWindow: true
-        }, () => console.log(this.state));
+        });
     }
 
     onClose = props => {
@@ -80,7 +81,6 @@ class MapContainer extends Component {
 
     componentDidMount = () => {
         this.setCenter()
-        console.log(window)
     }
 
     render() {
@@ -107,7 +107,7 @@ class MapContainer extends Component {
 
                 {this.state.endPoint ? <Marker name={this.state.place} onClick={this.onMarkerClick} onDragend={this.showMarker} draggable={true} position={this.state.endPoint} /> : null}
 
-                <Polyline path={this.state.polyline ? this.state.polyline : [] }
+                <Polyline path={this.props.course ? this.props.course : [] }
                     strokeColor="#3471eb"
                     strokeOpacity={0.7}
                     strokeWeight={6} />
@@ -131,14 +131,13 @@ class MapContainer extends Component {
     }
 
 }
+const mapStateToProps = (state) => ({
+    course: state.course
+})
 
 const mapDispatchToProps = {
     getCourse
 }
 
-export default connect(null, mapDispatchToProps)(MapContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
 
-// export default GoogleApiWrapper({
-//     apiKey: `${process.env.REACT_APP_MAP}`,
-//     language: 'he'
-// })(MapContainer)
