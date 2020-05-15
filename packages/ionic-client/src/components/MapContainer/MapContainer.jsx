@@ -1,4 +1,6 @@
-import { Map, Marker, InfoWindow, GoogleApiWrapper, Polyline } from 'google-maps-react';
+import { Map, Marker, InfoWindow, Polyline } from 'google-maps-react';
+import { connect } from 'react-redux';
+import getCourse from '../../redux/thunks/GetCourseThunk'
 import React, { Component } from 'react'
 import { IonFabButton, IonIcon } from '@ionic/react';
 import { bodyOutline } from 'ionicons/icons';
@@ -6,6 +8,8 @@ import StatusBar from '../StatusBar/StatusBar';
 import './MapContainer.css'
 
 class MapContainer extends Component {
+
+
     constructor() {
         super()
         this.state = {
@@ -14,17 +18,18 @@ class MapContainer extends Component {
             activeMarker: null,
             currentLocation: null,
             startPoint: null,
-            endPoint: null
+            endPoint: null,
+            polyline: null
         };
     }
 
-    setNewStartPoint = (e, a) => {
-        console.log(e, a)
-        console.log(a.internalPosition.lat())
-        const lat = a.internalPosition.lat()
-        const lng = a.internalPosition.lng()
+    setNewStartPoint = (e, marker) => {
+        const lat = marker.internalPosition.lat()
+        const lng = marker.internalPosition.lng()
         const startPoint = { lat, lng }
-        this.setState({ startPoint })
+        this.setState({ startPoint }, () => {
+            this.showPolyline()
+        })
     }
 
 
@@ -32,14 +37,22 @@ class MapContainer extends Component {
         const lat = e.latLng.lat();
         const lng = e.latLng.lng()
         const endPoint = { lng, lat }
-        this.setState({endPoint})
+        this.setState({ endPoint }, ()=>{
+            this.showPolyline()
+        })
+    }
+
+    showPolyline = () => {
+        const start = this.state.startPoint
+        const end = this.state.endPoint
+        this.props.getCourse(start, end)
     }
 
     showPosition = (position) => {
         const lat = position.coords.latitude
         const lng = position.coords.longitude
         const currentLocation = { lat, lng }
-        this.setState({ currentLocation })
+        this.setState({ currentLocation, startPoint: currentLocation })
     }
 
     setCenter = () => {
@@ -54,7 +67,7 @@ class MapContainer extends Component {
             activeMarker: marker,
             endPoint: props.position,
             showingInfoWindow: true
-        }, () => console.log(this.state));
+        });
     }
 
     onClose = props => {
@@ -72,7 +85,6 @@ class MapContainer extends Component {
 
     render() {
 
-        // console.log(this.state.selectedPlace)
         return (
 
             <Map
@@ -95,6 +107,11 @@ class MapContainer extends Component {
 
                 {this.state.endPoint ? <Marker name={this.state.place} onClick={this.onMarkerClick} onDragend={this.showMarker} draggable={true} position={this.state.endPoint} /> : null}
 
+                <Polyline path={this.props.course ? this.props.course : [] }
+                    strokeColor="#3471eb"
+                    strokeOpacity={0.7}
+                    strokeWeight={6} />
+
                 <InfoWindow
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}
@@ -112,10 +129,15 @@ class MapContainer extends Component {
 
         )
     }
+
+}
+const mapStateToProps = (state) => ({
+    course: state.course
+})
+
+const mapDispatchToProps = {
+    getCourse
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
 
-export default GoogleApiWrapper({
-    apiKey: `${process.env.REACT_APP_MAP}`,
-    language: 'he'
-})(MapContainer)
