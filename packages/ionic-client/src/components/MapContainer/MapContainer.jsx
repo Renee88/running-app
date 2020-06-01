@@ -92,6 +92,7 @@ class MapContainer extends Component {
                 google={this.props.google}
                 onClick={this.showMarker}
                 center={this.state.currentLocation}
+                zoom={18}
             >
                 <Marker
                     position={this.state.startPoint ? this.state.startPoint : this.state.currentLocation}

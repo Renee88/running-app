@@ -11,5 +11,6 @@
   "devDependencies": {
     "lerna": "^3.20.2"
   },
-  "repository": "https://github.com/Renee88/running-app.git"
+  "repository": "https://github.com/Renee88/running-app.git",
+  "dependencies": {}
 }
