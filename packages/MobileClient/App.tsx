@@ -18,16 +18,16 @@ import {
   StatusBar,
 } from 'react-native';
 
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-import MapContainer from './components/MapContainer/MapContainer'
+import MainHeader from './components/MainHeader/MainHeader';
+import Footer from './components/Footer/Footer';
+import MapContainer from './components/MapContainer/MapContainer';
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
     <View style={styles.mainPage}>
-      <Header />
+      <MainHeader />
       <MapContainer />
       <Footer />
     </View>
@@ -36,9 +36,9 @@ const App = () => {
 
 const styles = StyleSheet.create({
   mainPage: {
-    backgroundColor: '#222222',
-    flex: 1
-  }
+    backgroundColor: 'white',
+    flex: 1,
+  },
 });
 
 export default App;

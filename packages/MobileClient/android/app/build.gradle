@@ -214,8 +214,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-
+    implementation project(':react-native-maps')
+    implementation project(':react-native-community-geolocation')
 }
+
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
